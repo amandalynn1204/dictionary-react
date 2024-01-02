@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Dictionary.css";
 import Results from "./Results";
+import Photos from "./Photos";
 
 export default function Dictionary() {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState(null);
   const [results, setResults] = useState(null);
+  const [photos, setPhotos] = useState(null);
 
-  function handleResponse(response) {
+  function handleDictionaryResponse(response) {
     if (response.data.word === undefined) {
       alert("We cannot find that word! Sorry! 😟");
       return null;
@@ -16,11 +18,18 @@ export default function Dictionary() {
     }
   }
 
+  function handlePhotoResponse(response) {
+    setPhotos(response.data.photos);
+  }
+
   function search(event) {
     event.preventDefault();
     const apiKey = "9a7ca83bt1f54ebc3o8f9d804f5e2b0e";
-    let apiUrl = `https://api.shecodes.io/dictionary/v1/define?word=${keyword}&key=${apiKey}`;
-    axios.get(apiUrl).then(handleResponse);
+    let dictionaryApiUrl = `https://api.shecodes.io/dictionary/v1/define?word=${keyword}&key=${apiKey}`;
+    let photoApiUrl = `https://api.shecodes.io/images/v1/search?query=${keyword}&key=${apiKey}`;
+
+    axios.get(dictionaryApiUrl).then(handleDictionaryResponse);
+    axios.get(photoApiUrl).then(handlePhotoResponse);
   }
 
   function handleKeywordChange(event) {
@@ -40,7 +49,7 @@ export default function Dictionary() {
                 onChange={handleKeywordChange}
                 className="search-bar"
               />
-              <div className="hints">i.e. sunrise, book, country </div>
+              <div className="hints">i.e. sunrise, book, country, snow</div>
             </div>
             <div className="col-sm-3">
               <input type="submit" value="Search" className="search-btn" />
@@ -49,6 +58,7 @@ export default function Dictionary() {
         </form>
       </section>
       <Results results={results} />
+      <Photos photos={photos} />
     </div>
   );
 }
