@@ -9,7 +9,11 @@ function App() {
         <h1 className="text-center">📖 Dictionary</h1>
         <Dictionary />
         <footer>
-          <a href="https://github.com/amandalynn1204/dictionary-react">
+          <a
+            href="https://github.com/amandalynn1204/dictionary-react"
+            target="_blank"
+            rel="noreferrer"
+          >
             Open-sourced code
           </a>{" "}
           by Amanda Ludwick
