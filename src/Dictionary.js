@@ -7,7 +7,12 @@ export default function Dictionary() {
   const [results, setResults] = useState(null);
 
   function handleResponse(response) {
-    setResults(response.data);
+    if (response.data.word === undefined) {
+      alert("We cannot find that word! Sorry! 😟");
+      return null;
+    } else {
+      setResults(response.data);
+    }
   }
 
   function search(event) {
