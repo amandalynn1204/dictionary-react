@@ -3,11 +3,13 @@ import axios from "axios";
 import "./Dictionary.css";
 import Results from "./Results";
 import Photos from "./Photos";
+import BackButton from "./BackButton";
 
 export default function Dictionary() {
   const [keyword, setKeyword] = useState(null);
   const [results, setResults] = useState(null);
   const [photos, setPhotos] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   function handleDictionaryResponse(response) {
     if (response.data.word === undefined) {
@@ -15,11 +17,13 @@ export default function Dictionary() {
       return null;
     } else {
       setResults(response.data);
+      setLoaded(true);
     }
   }
 
   function handlePhotoResponse(response) {
     setPhotos(response.data.photos);
+    setLoaded(true);
   }
 
   function search(event) {
@@ -59,6 +63,7 @@ export default function Dictionary() {
       </section>
       <Results results={results} />
       <Photos photos={photos} />
+      <BackButton ready={loaded} />
     </div>
   );
 }
